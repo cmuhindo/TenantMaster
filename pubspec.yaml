@@ -16,6 +16,7 @@ dependencies:
 
   provider: ^6.1.1
   popover: ^0.2.9
+  dio: ^5.4.0
 
   transparent_image: ^2.0.1
   google_fonts: any

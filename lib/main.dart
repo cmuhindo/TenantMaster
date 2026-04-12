@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
             restorationScopeId: 'rootFlareLine',
             title: 'FlareLine',
             debugShowCheckedModeBanner: false,
-            initialRoute: '/',
+            initialRoute: '/signIn',
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             locale: context.watch<LocalizationProvider>().locale,
             supportedLocales: AppLocalizations.supportedLocales,
