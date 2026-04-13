@@ -11,7 +11,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 abstract class FlarelineLayoutWidget extends StatelessWidget {
   const FlarelineLayoutWidget({super.key});
 
-  String get appName => 'Flareline';
+  String get appName => 'HMK Tenant';
 
   bool get showTitle => true;
 

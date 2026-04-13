@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             navigatorKey: RouteConfiguration.navigatorKey,
             restorationScopeId: 'rootFlareLine',
-            title: 'FlareLine',
+            title: 'Tenant Mgt System',
             debugShowCheckedModeBanner: false,
             initialRoute: '/signIn',
             localizationsDelegates: AppLocalizations.localizationsDelegates,

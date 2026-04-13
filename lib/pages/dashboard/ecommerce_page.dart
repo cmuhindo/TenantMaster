@@ -12,7 +12,7 @@ class EcommercePage extends LayoutWidget {
   @override
   String breakTabTitle(BuildContext context) {
     // TODO: implement breakTabTitle
-    return 'Ecommerce';
+    return 'HMK Tenant Dashboard';
   }
   @override
   Widget contentDesktopWidget(BuildContext context) {
