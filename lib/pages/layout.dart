@@ -28,7 +28,7 @@ abstract class LayoutWidget extends FlarelineLayoutWidget {
       children: [
         Column(
           children: [
-            Text('Demo'),
+            Text('Admin'),
           ],
         ),
         SizedBox(

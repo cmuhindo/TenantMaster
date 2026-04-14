@@ -1,16 +1,7 @@
 [
+
   {
-    "groupName": "Project",
-    "menuList": [
-      {
-        "icon": "assets/sidebar/tools.svg",
-        "menuName": "Project",
-        "path": "/tools"
-      }
-    ]
-  },
-  {
-    "groupName": "Widgets",
+    "groupName": "Menu",
     "menuList": [
       {
         "icon": "assets/sidebar/dashboard.svg",
@@ -18,44 +9,38 @@
         "path": "/"
       },
       {
-        "icon": "assets/sidebar/calendar.svg",
-        "menuName": "Calendar",
-        "path": "/calendar"
-      },
-      {
         "icon": "assets/sidebar/invoice.svg",
-        "menuName": "Invoice",
+        "menuName": "Invoices",
         "path": "/invoice"
       },
       {
-        "icon": "assets/sidebar/profile.svg",
-        "menuName": "Profile",
-        "path": "/profile"
-      },
-      {
-        "icon": "assets/sidebar/forms.svg",
-        "menuName": "Forms",
+        "icon": "assets/sidebar/table.svg",
+        "menuName": "Properties",
         "childList": [
           {
-            "menuName": "FormElements",
-            "path": "/formElements"
+            "menuName": "All Properties",
+            "path": "/tables"
           },
           {
-            "menuName": "FormLayout",
-            "path": "/formLayout"
+            "menuName": "All Units",
+            "path": "/contacts"
           }
         ]
       },
       {
         "icon": "assets/sidebar/table.svg",
-        "menuName": "Tables",
+        "menuName": "Tenants",
         "childList": [
           {
-            "menuName": "BasicTable",
-            "path": "/tables"
+            "menuName": "All Tenants",
+            "path": "/contacts"
           },
           {
-            "menuName": "Contacts",
+            "menuName": "Paid Tenants",
+            "path": "/contacts"
+          },
+          {
+            "menuName": "Unpaid Tenants",
             "path": "/contacts"
           }
         ]
@@ -64,59 +49,16 @@
         "icon": "assets/sidebar/setting.svg",
         "menuName": "Settings",
         "path": "/settings"
-      },
+      }
+    ]
+  },
+  {
+    "groupName": "Other Modules",
+    "menuList": [
       {
-        "icon": "assets/sidebar/chart.svg",
-        "menuName": "Chart",
-        "childList": [
-          {
-            "menuName": "BasicChart",
-            "path": "/basicChart"
-          }
-        ]
-      },
-      {
-        "icon": "assets/sidebar/ui.svg",
-        "menuName": "UIElements",
-        "childList": [
-          {
-            "menuName": "Alerts",
-            "path": "/alerts"
-          },
-          {
-            "menuName": "Buttons",
-            "path": "/buttons"
-          },
-          {
-            "menuName": "Toast",
-            "path": "/toast"
-          },
-          {
-            "menuName": "Modal",
-            "path": "/modal"
-          }
-        ]
-      },
-      {
-        "icon": "assets/sidebar/auth.svg",
-        "menuName": "Auth",
-        "childList": [
-          {
-            "menuName": "SignIn",
-            "path": "/signIn",
-            "blank": true
-          },
-          {
-            "menuName": "SignUp",
-            "path": "/signUp",
-            "blank": true
-          },
-          {
-            "menuName": "ResetPassword",
-            "path": "/resetPwd",
-            "blank": true
-          }
-        ]
+        "icon": "assets/sidebar/tools.svg",
+        "menuName": "HMK Booking",
+        "path": "/tools"
       }
     ]
   }
