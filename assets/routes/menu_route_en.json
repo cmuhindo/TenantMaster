@@ -33,15 +33,15 @@
         "childList": [
           {
             "menuName": "All Tenants",
-            "path": "/contacts"
+            "path": "/allTenants"
           },
           {
             "menuName": "Paid Tenants",
-            "path": "/contacts"
+            "path": "/paidTenants"
           },
           {
             "menuName": "Unpaid Tenants",
-            "path": "/contacts"
+            "path": "/unpaidTenants"
           }
         ]
       },
