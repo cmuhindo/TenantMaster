@@ -42,6 +42,28 @@
           {
             "menuName": "Unpaid Tenants",
             "path": "/unpaidTenants"
+          },
+          {
+            "menuName": "Add Tenant",
+            "path": "/addTenant"
+          }
+        ]
+      },
+      {
+        "icon": "assets/sidebar/invoice.svg",
+        "menuName": "Payments",
+        "childList": [
+          {
+            "menuName": "All Payments",
+            "path": "/payments"
+          },
+          {
+            "menuName": "Add Payment",
+            "path": "/addPayment"
+          },
+          {
+            "menuName": "Invoice Payments",
+            "path": "/invoicePayments"
           }
         ]
       },

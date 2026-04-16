@@ -27,7 +27,9 @@ class PaidTenantsPage extends LayoutWidget {
 
     List<Map<String, dynamic>> tenants = [];
     if (raw is Map<String, dynamic> && raw['data'] is List) {
-      tenants = (raw['data'] as List).map((e) => Map<String, dynamic>.from(e)).toList();
+      tenants = (raw['data'] as List)
+          .map((e) => Map<String, dynamic>.from(e))
+          .toList();
     } else if (raw is List) {
       tenants = raw.map((e) => Map<String, dynamic>.from(e)).toList();
     }
@@ -77,74 +79,33 @@ class PaidTenantsPage extends LayoutWidget {
 
         final tenants = snapshot.data ?? [];
 
-        if (tenants.isEmpty) {
-          return const CommonCard(
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Center(child: Text('No paid tenants found')),
-            ),
-          );
-        }
-
-        return Column(
-          children: [
-            Row(
-              children: [
-                Expanded(child: _summaryCard('Paid Tenants', tenants.length.toString())),
+        return CommonCard(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: DataTable(
+              columnSpacing: 28,
+              columns: const [
+                DataColumn(label: Text('ID')),
+                DataColumn(label: Text('Name')),
+                DataColumn(label: Text('Email')),
+                DataColumn(label: Text('Phone')),
+                DataColumn(label: Text('National ID')),
               ],
+              rows: tenants.map((tenant) {
+                return DataRow(
+                  cells: [
+                    DataCell(Text('${tenant['id'] ?? ''}')),
+                    DataCell(Text('${tenant['name'] ?? '-'}')),
+                    DataCell(Text('${tenant['email'] ?? '-'}')),
+                    DataCell(Text('${tenant['phone'] ?? '-'}')),
+                    DataCell(Text('${tenant['national_id'] ?? '-'}')),
+                  ],
+                );
+              }).toList(),
             ),
-            const SizedBox(height: 16),
-            _tenantTable(tenants),
-          ],
+          ),
         );
       },
-    );
-  }
-
-  Widget _summaryCard(String title, String value) {
-    return CommonCard(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Text(
-              value,
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 6),
-            Text(title, style: const TextStyle(color: Colors.grey)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _tenantTable(List<Map<String, dynamic>> tenants) {
-    return CommonCard(
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: DataTable(
-          columnSpacing: 28,
-          columns: const [
-            DataColumn(label: Text('ID')),
-            DataColumn(label: Text('Name')),
-            DataColumn(label: Text('Email')),
-            DataColumn(label: Text('Phone')),
-            DataColumn(label: Text('National ID')),
-          ],
-          rows: tenants.map((tenant) {
-            return DataRow(
-              cells: [
-                DataCell(Text('${tenant['id'] ?? ''}')),
-                DataCell(Text('${tenant['name'] ?? '-'}')),
-                DataCell(Text('${tenant['email'] ?? '-'}')),
-                DataCell(Text('${tenant['phone'] ?? '-'}')),
-                DataCell(Text('${tenant['national_id'] ?? '-'}')),
-              ],
-            );
-          }).toList(),
-        ),
-      ),
     );
   }
 

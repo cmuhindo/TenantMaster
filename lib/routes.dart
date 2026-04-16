@@ -22,6 +22,10 @@ import 'package:flareline/pages/table/tables_page.dart' deferred as tables;
 import 'package:flareline/pages/table/all_tenants_page.dart' deferred as allTenants;
 import 'package:flareline/pages/table/paid_tenants_page.dart' deferred as paidTenants;
 import 'package:flareline/pages/table/unpaid_tenants_page.dart' deferred as unpaidTenants;
+import 'package:flareline/pages/table/add_tenant_page.dart' deferred as addTenant;
+import 'package:flareline/pages/table/payments_page.dart' deferred as payments;
+import 'package:flareline/pages/table/add_payment_page.dart' deferred as addPayment;
+import 'package:flareline/pages/table/invoice_payments_page.dart' deferred as invoicePayments;
 
 typedef PathWidgetBuilder = Widget Function(BuildContext, String?);
 
@@ -52,6 +56,23 @@ final List<Map<String, Object>> MAIN_PAGES = [
     'routerPath': '/unpaidTenants',
     'widget': DeferredWidget(unpaidTenants.loadLibrary, () => unpaidTenants.UnpaidTenantsPage()),
   },
+  {
+    'routerPath': '/addTenant',
+    'widget': DeferredWidget(addTenant.loadLibrary, () => addTenant.AddTenantPage()),
+  },
+  {
+    'routerPath': '/payments',
+    'widget': DeferredWidget(payments.loadLibrary, () => payments.PaymentsPage()),
+  },
+  {
+    'routerPath': '/addPayment',
+    'widget': DeferredWidget(addPayment.loadLibrary, () => addPayment.AddPaymentPage()),
+  },
+  {
+    'routerPath': '/invoicePayments',
+    'widget': DeferredWidget(invoicePayments.loadLibrary, () => invoicePayments.InvoicePaymentsPage()),
+  },
+
   {'routerPath': '/invoice', 'widget': DeferredWidget(invoice.loadLibrary, () => invoice.InvoicePage())},
   {'routerPath': '/inbox', 'widget': DeferredWidget(inbox.loadLibrary, () => inbox.InboxWidget())},
   {'routerPath': '/tables', 'widget': DeferredWidget(tables.loadLibrary, () => tables.TablesPage())},
