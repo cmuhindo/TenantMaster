@@ -46,6 +46,10 @@
           {
             "menuName": "Add Tenant",
             "path": "/addTenant"
+          },
+          {
+            "menuName": "Leases",
+            "path": "/leases"
           }
         ]
       },
