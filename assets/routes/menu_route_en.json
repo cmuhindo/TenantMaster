@@ -84,7 +84,7 @@
       {
         "icon": "assets/sidebar/tools.svg",
         "menuName": "HMK Booking",
-        "path": "/tools"
+        "path": "/hmkBooking"
       }
     ]
   }

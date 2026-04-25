@@ -27,6 +27,7 @@ import 'package:flareline/pages/table/payments_page.dart' deferred as payments;
 import 'package:flareline/pages/table/add_payment_page.dart' deferred as addPayment;
 import 'package:flareline/pages/table/invoice_payments_page.dart' deferred as invoicePayments;
 import 'package:flareline/pages/table/leases_page.dart' deferred as leases;
+import 'package:flareline/pages/hmk/hmk_booking_page.dart' deferred as hmk;
 
 typedef PathWidgetBuilder = Widget Function(BuildContext, String?);
 
@@ -37,6 +38,10 @@ final List<Map<String, Object>> MAIN_PAGES = [
   {
     'routerPath': '/formElements',
     'widget': DeferredWidget(formElements.loadLibrary, () => formElements.FormElementsPage()),
+  },
+  {
+    'routerPath': '/hmkBooking',
+    'widget': DeferredWidget(hmk.loadLibrary, () => hmk.HmkBookingPage()),
   },
   {'routerPath': '/formLayout', 'widget': DeferredWidget(formLayout.loadLibrary, () => formLayout.FormLayoutPage())},
   {'routerPath': '/signIn', 'widget': DeferredWidget(signIn.loadLibrary, () => signIn.SignInWidget())},
