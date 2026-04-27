@@ -1,45 +1,25 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flareline/pages/layout.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_windows/webview_windows.dart';
 
-class HmkBookingPage extends LayoutWidget {
+class HmkBookingPage extends StatefulWidget {
   const HmkBookingPage({super.key});
 
   @override
-  Widget contentDesktopWidget(BuildContext context) {
-    return const HmkBookingFullScreenPage();
-  }
-
-  @override
-  Widget contentMobileWidget(BuildContext context) {
-    return const HmkBookingFullScreenPage();
-  }
-
-  @override
-  String breakTabTitle(BuildContext context) => 'HMK Booking';
+  State<HmkBookingPage> createState() => _HmkBookingPageState();
 }
 
-class HmkBookingFullScreenPage extends StatefulWidget {
-  const HmkBookingFullScreenPage({super.key});
-
-  @override
-  State<HmkBookingFullScreenPage> createState() => _HmkBookingFullScreenPageState();
-}
-
-class _HmkBookingFullScreenPageState extends State<HmkBookingFullScreenPage> {
-  final windowsController = WebviewController();
-  WebViewController? androidController;
+class _HmkBookingPageState extends State<HmkBookingPage> {
+  final WebviewController windowsController = WebviewController();
+  WebViewController? mobileController;
 
   bool loading = true;
   String? error;
-  String? currentUrl;
 
   Future<String> _getAutoLoginUrl() async {
     const storage = FlutterSecureStorage();
@@ -71,42 +51,27 @@ class _HmkBookingFullScreenPageState extends State<HmkBookingFullScreenPage> {
 
       if (!kIsWeb && Platform.isWindows) {
         await windowsController.initialize();
-
-        await windowsController.setPopupWindowPolicy(WebviewPopupWindowPolicy.deny);
         await windowsController.loadUrl(url);
 
-        windowsController.url.listen((url) {
-          currentUrl = url;
-        });
-
         windowsController.loadingState.listen((state) {
-          if (mounted && state == LoadingState.navigationCompleted) {
+          if (state == LoadingState.navigationCompleted && mounted) {
             setState(() => loading = false);
           }
         });
 
-        if (mounted) {
-          setState(() {
-            currentUrl = url;
-          });
-        }
+        setState(() => loading = false);
       } else {
-        final webController = WebViewController()
+        final controller = WebViewController()
           ..setJavaScriptMode(JavaScriptMode.unrestricted)
           ..setNavigationDelegate(
             NavigationDelegate(
-              onPageStarted: (url) {
-                currentUrl = url;
-                if (mounted) setState(() => loading = true);
-              },
-              onPageFinished: (url) {
-                currentUrl = url;
+              onPageFinished: (_) {
                 if (mounted) setState(() => loading = false);
               },
-              onWebResourceError: (error) {
+              onWebResourceError: (err) {
                 if (mounted) {
                   setState(() {
-                    this.error = error.description;
+                    error = err.description;
                     loading = false;
                   });
                 }
@@ -115,20 +80,15 @@ class _HmkBookingFullScreenPageState extends State<HmkBookingFullScreenPage> {
           )
           ..loadRequest(Uri.parse(url));
 
-        if (mounted) {
-          setState(() {
-            androidController = webController;
-            currentUrl = url;
-          });
-        }
-      }
-    } catch (e) {
-      if (mounted) {
         setState(() {
-          error = e.toString();
-          loading = false;
+          mobileController = controller;
         });
       }
+    } catch (e) {
+      setState(() {
+        error = e.toString();
+        loading = false;
+      });
     }
   }
 
@@ -142,28 +102,17 @@ class _HmkBookingFullScreenPageState extends State<HmkBookingFullScreenPage> {
       return;
     }
 
-    if (androidController != null) {
-      final canGoBack = await androidController!.canGoBack();
+    if (mobileController != null) {
+      final canGoBack = await mobileController!.canGoBack();
       if (canGoBack) {
-        await androidController!.goBack();
+        await mobileController!.goBack();
       } else if (mounted) {
         Navigator.of(context).pop();
       }
       return;
     }
 
-    if (mounted) {
-      Navigator.of(context).pop();
-    }
-  }
-
-  Future<void> _refresh() async {
-    if (!kIsWeb && Platform.isWindows) {
-      await windowsController.reload();
-      return;
-    }
-
-    await androidController?.reload();
+    if (mounted) Navigator.of(context).pop();
   }
 
   @override
@@ -176,82 +125,41 @@ class _HmkBookingFullScreenPageState extends State<HmkBookingFullScreenPage> {
 
   @override
   Widget build(BuildContext context) {
-    final fullHeight = MediaQuery.of(context).size.height;
+    return Scaffold(
+      body: error != null
+          ? Center(child: Text('Failed to open HMK Booking:\n$error'))
+          : Stack(
+        children: [
+          Positioned.fill(child: _buildWebView()),
 
-    return SizedBox(
-      height: fullHeight,
-      width: double.infinity,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('HMK Booking'),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: _goBack,
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.refresh),
-              onPressed: _refresh,
-            ),
-            IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        ),
-        body: error != null
-            ? Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text(
-              'Failed to open HMK Booking:\n$error',
-              textAlign: TextAlign.center,
-            ),
-          ),
-        )
-            : Stack(
-          children: [
-            Positioned.fill(
-              child: _buildWebView(),
-            ),
-            if (loading)
-              const Center(
-                child: CircularProgressIndicator(),
+          Positioned(
+            top: 20,
+            left: 20,
+            child: SafeArea(
+              child: FloatingActionButton.small(
+                heroTag: 'hmk_back_btn',
+                onPressed: _goBack,
+                child: const Icon(Icons.arrow_back),
               ),
-          ],
-        ),
+            ),
+          ),
+
+          if (loading)
+            const Center(child: CircularProgressIndicator()),
+        ],
       ),
     );
   }
 
   Widget _buildWebView() {
     if (!kIsWeb && Platform.isWindows) {
-      return Listener(
-        onPointerSignal: (event) {
-          // Windows WebView should handle mouse wheel internally.
-          // This Listener helps prevent parent widgets from stealing scroll focus.
-        },
-        child: Webview(windowsController),
-      );
+      return Webview(windowsController);
     }
 
-    if (androidController == null) {
+    if (mobileController == null) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    return WebViewWidget(
-      controller: androidController!,
-      gestureRecognizers: {
-        Factory<VerticalDragGestureRecognizer>(
-              () => VerticalDragGestureRecognizer(),
-        ),
-        Factory<HorizontalDragGestureRecognizer>(
-              () => HorizontalDragGestureRecognizer(),
-        ),
-        Factory<ScaleGestureRecognizer>(
-              () => ScaleGestureRecognizer(),
-        ),
-      },
-    );
+    return WebViewWidget(controller: mobileController!);
   }
 }
