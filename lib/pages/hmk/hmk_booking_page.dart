@@ -51,6 +51,10 @@ class _HmkBookingPageState extends State<HmkBookingPage> {
 
       if (!kIsWeb && Platform.isWindows) {
         await windowsController.initialize();
+
+        // Important for dropdowns / popups / dashboard menus
+        await windowsController.setPopupWindowPolicy(WebviewPopupWindowPolicy.allow);
+
         await windowsController.loadUrl(url);
 
         windowsController.loadingState.listen((state) {
@@ -94,11 +98,7 @@ class _HmkBookingPageState extends State<HmkBookingPage> {
 
   Future<void> _goBack() async {
     if (!kIsWeb && Platform.isWindows) {
-      try {
-        await windowsController.goBack();
-      } catch (_) {
-        if (mounted) Navigator.of(context).pop();
-      }
+      if (mounted) Navigator.of(context).pop();
       return;
     }
 
